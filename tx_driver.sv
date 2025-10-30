@@ -8,13 +8,13 @@ task drive_simple_packet(htax_packet_c pkt);
     @(posedge htax_tx_intf.clk);
     
     // TODO 3: Wait for grant using a while loop
-    while((htax_tx_intf.tx_vc_gnt) == 0) begin
+    while((htax_tx_intf.tx_vc_gnt & htax_tx_intf.tx_vc_req) == 0) begin
         @(posedge htax_tx_intf.clk);
     end
     
     // TODO 4: Assert SOT for the granted VC and drive first data
     // Hint: SOT should match the granted VC
-    htax_tx_intf.tx_sot = htax_tx_intf.tx_vc_gnt/* YOUR CODE */;
+    htax_tx_intf.tx_sot = htax_tx_intf.tx_vc_gnt & htax_tx_intf.tx_vc_req/* YOUR CODE */;
     htax_tx_intf.tx_data = pkt.data[0];
     
     // TODO 5: Deassert request signals
